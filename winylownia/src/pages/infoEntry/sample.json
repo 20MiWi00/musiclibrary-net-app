@@ -1,0 +1,14 @@
+[
+	{
+        "id" : 1,
+        "user" : "admin",
+		"title": "Born This Way",
+		"image": "https://m.media-amazon.com/images/I/81A3LZUImhL.jpg",
+		"singer" : "Lady Gaga",
+		"category" : "Pop",
+		"yearOfProduction" : "2011",
+        "description" : "Drugi album studyjny amerykańskiej piosenkarki Lady Gagi, który swoją oficjalną premierę miał 23 maja 2011 roku.\nPierwszym singlem wydawnictwa jest tytułowy utwór.\nPodczas odbierania nagrody w kategorii Teledysk Roku na MTV Video Music Award artystka zdradziła tytuł albumu, a oficjalną datę premiery potwierdziła na swoim profilu na Twitterze o północy, z 31 grudnia 2010 na 1 stycznia 2011 roku.",
+		"songTrack" : "A1. Marry the night\nA2. Born this way\nA3. Government Hooker\nA4. Judas\nA5. Americano",
+        "vinylWersions" : "Wersja klasyczna - winyl koloru czarnego (2011).\nWersja limitowana - winyl koloru czerwonego (2011).\nWydanie jubileuszowe - winyl koloru czarnego w gramaturze 180 gram (2021)."
+	}
+]

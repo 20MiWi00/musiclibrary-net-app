@@ -1,0 +1,26 @@
+[
+	{
+		"title": "Born This Way",
+		"image": "https://m.media-amazon.com/images/I/81A3LZUImhL.jpg",
+		"singer" : "Lady Gaga",
+		"category" : "Pop",
+		"yearOfProduction" : "2011",
+		"id" : 1
+	},
+	{
+		"title": "ARTPOP",
+		"image": "https://m.media-amazon.com/images/I/81LFx7SM8AL.jpg",
+		"singer" : "Lady Gaga",
+		"category" : "Pop",
+		"yearOfProduction" : "2013",
+		"id" : 2
+	},
+	{
+		"title": "Circus",
+		"image": "https://m.media-amazon.com/images/I/51yZuhrSPeL._SY1000_.jpg",
+		"singer" : "Britney Spears",
+		"category" : "Pop",
+		"yearOfProduction" : "2008",
+		"id" : 3
+	}
+]

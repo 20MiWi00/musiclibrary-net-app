@@ -1,0 +1,50 @@
+[
+	{
+		"title": "Born This Way",
+		"image": "https://m.media-amazon.com/images/I/81A3LZUImhL.jpg",
+		"singer" : "Lady Gaga",
+		"category" : "Pop",
+		"yearOfProduction" : "2011",
+		"id" : 1
+	},
+	{
+		"title": "ARTPOP",
+		"image": "https://m.media-amazon.com/images/I/81LFx7SM8AL.jpg",
+		"singer" : "Lady Gaga",
+		"category" : "Pop",
+		"yearOfProduction" : "2013",
+		"id" : 2
+	},
+	{
+		"title": "The Fame",
+		"image": "https://m.media-amazon.com/images/I/61qYZtkIOsL._SL1200_.jpg",
+		"singer" : "Lady Gaga",
+		"category" : "Pop",
+		"yearOfProduction" : "2008",
+		"id" : 3
+	},
+	{
+		"title": "Dawn FM",
+		"image": "https://m.media-amazon.com/images/I/712lOAnLS8L._SS500_.jpg",
+		"singer" : "The Weeknd",
+		"category" : "Pop",
+		"yearOfProduction" : "2022",
+		"id" : 4
+	},
+	{
+		"title": "Chromatica",
+		"image": "https://m.media-amazon.com/images/I/81Le2R1yAgL.jpg",
+		"singer" : "Lady Gaga",
+		"category" : "Pop",
+		"yearOfProduction" : "2020",
+		"id" : 5
+	},
+	{
+		"title": "Circus",
+		"image": "https://m.media-amazon.com/images/I/51yZuhrSPeL._SY1000_.jpg",
+		"singer" : "Britney Spears",
+		"category" : "Pop",
+		"yearOfProduction" : "2008",
+		"id" : 6
+	}
+]
