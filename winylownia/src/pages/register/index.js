@@ -67,10 +67,12 @@ const Register = () =>{
                 "role" : "user"
             })
         })
-        .then(response => checkStatus(response.status))  
+        .then(response => checkStatus(response))  
         .catch(error => console.log("Error detected: " + error))
     }
-    function checkStatus(mode){
+    function checkStatus(data){
+        console.log(data);
+        var mode = data.status;
         if(mode === 200){
             navigate("/");
         }

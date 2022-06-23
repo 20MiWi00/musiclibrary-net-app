@@ -1,18 +1,37 @@
 import { Typography,Button, Divider } from "@mui/material";
 import { Link } from "react-router-dom";
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import useDebounce from "../../utills/useDebounce";
 import EntryPanel from "../../components/EntryPanel";
 import sample from "./sample.json";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const UserPanel = () => {
 
-	window.history.pushState(null,null,"/userPanel");
-	window.onpopstate = function (){
-	window.history.go(2);
-	}
-	
+
+	const params = useParams();
+	const [entries,setEntries] = useState([]);
+
+	useEffect(() => {
+		const fetchData = async() => {
+			await fetch('http://localhost:8080/getUserEntries',
+			{
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: params.userID.toString()
+			})
+			.then(response => response.json().then(data =>({
+				data : data
+			})))
+			.then(res => setEntries(res.data.data))
+		}
+			fetchData()
+	},[entries]);
+
 	return (
 		<div
 			style = {{
@@ -32,7 +51,7 @@ const UserPanel = () => {
 						gap:40,
 					}}>
 					<Link
-						to = {"/settings"}
+						to = {`/settings/${params.userID}`}
 						style={{
 							textDecoration: "none",
 						}}>
@@ -44,7 +63,7 @@ const UserPanel = () => {
 								paddingRight: 10,
 								paddingLeft: 10,
 							}}>
-							<Typography variant="h5">Ustawienia</Typography>
+							<Typography variant="h5">Ustawnienia</Typography>
 						</Button>
 					</Link>
                     <div
@@ -58,7 +77,7 @@ const UserPanel = () => {
                         </Typography>
                     </div>
 					<Link
-						to = {"/addEntry"}
+						to = {`/addEntry/${params.userID}`}
 						style={{
 							textDecoration: "none",
 						}}>
@@ -80,7 +99,7 @@ const UserPanel = () => {
 						flexDirection : "column",
 					}}>
 					<EntryPanel
-						data = {sample}
+						data = {entries}
 						type = "extended"
 					/>
 				</div>

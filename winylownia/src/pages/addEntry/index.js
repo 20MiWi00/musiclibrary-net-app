@@ -1,11 +1,15 @@
 import { Button, Typography,Box } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomInputWithLabel from "../../components/CustomInputWithLabel";
 import CustomSelect from "../../components/CustomSelect";
 import PhotoSelectItem from "../../components/PhotoSelectItem";
 import CustomInputWithLabelExtra from "../../components/CustomInputWithLabelExtra";
+
 const AddEntry = () =>{
+
+    const params = useParams();
+    const navigate = useNavigate();
 
     const categories = [
         {label:"Country",value:"Country"},
@@ -35,6 +39,41 @@ const AddEntry = () =>{
             setSong("");
         }
 
+    }
+
+    async function sendData(){
+
+        
+        const formData = new FormData();
+        formData.append('login',params.userID.toString());
+        formData.append('title',title.toString());
+        formData.append('singer',artist.toString());
+        formData.append('category',category.toString());
+        formData.append('yearOfProduction',productionYear.toString());
+        formData.append('description',description.toString());
+        formData.append('songTrack',firstDisc.toString());
+        formData.append('vinylVersions',versions.toString());
+        formData.append('file',photo);
+        
+        await fetch('http://localhost:8080/addEntry',
+        {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json().then(data =>({
+			data : data
+		})))
+		.then(res => checkStatus(res))  
+        .catch(error => console.log("Error detected: " + error))
+    }
+
+	function checkStatus(response){
+        var mode = response.data.status;
+        if(mode === "OK"){
+            alert("Dodano wpis")
+			navigate(`/userPanel/${params.userID}`);
+        }
+        return;
     }
 
     return(
@@ -191,8 +230,8 @@ const AddEntry = () =>{
                             <Typography
                                 style = {{fontSize : 25,}}
                                 variant="button"
-                                onClick={{// 
-                                }}>
+                                onClick={() => {sendData()}}
+                            >
                                 Dodaj wpis
                             </Typography>
                         </Button>

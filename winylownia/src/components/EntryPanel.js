@@ -4,9 +4,25 @@ import {
 	Typography,
 	Divider,
 } from "@mui/material";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
-const Entry = ({ data,type }) => {
+const Entry = ({ data, type }) => {
+
+	const navigate = useNavigate();
+
+	async function deleteEntry(){
+
+        await fetch('http://localhost:8080/deleteEntry',
+        {
+            method: "POST",
+            body: data.id
+        })
+		.then(response => response.json().then(data =>({
+			data : data
+		})))
+		.then(res => alert(res.data.message))
+	}
+
 	return (
 		<div
 		style = {{
@@ -31,7 +47,7 @@ const Entry = ({ data,type }) => {
 					flexDirection:"row",
 					paddingLeft : 30,
 				}}>
-				<img alt="Image" style = {{ width : 100, height : 100, borderRadius: "2px",}} src={data.image}/>
+				<img alt="Image" style = {{ width : 100, height : 100, borderRadius: "2px",}} src={`http://localhost:8080/files/${data.filename}`}/>
 				<div
 				style = {{
 					display:"flex",
@@ -41,7 +57,7 @@ const Entry = ({ data,type }) => {
 				}}>
 					<Typography variant = "h5" style = {{alignText : "left",}}>{data.singer}</Typography>
 					<Typography variant = "h5" style = {{alignText : "left",}}>{data.category}</Typography>
-					<Typography variant = "h5" style = {{alignText : "left",}}>{data.yearOfProduction}</Typography>
+					<Typography variant = "h5" style = {{alignText : "left",}}>{data.yearofproduction}</Typography>
 				</div>
 				<div
 					style = {{
@@ -79,7 +95,7 @@ const Entry = ({ data,type }) => {
 							<Typography
 								variant="h5"
 								onClick={() => {
-									//Login to firebase
+									deleteEntry()
 								}}>
 								Usuń
 							</Typography>
@@ -107,8 +123,8 @@ const EntryPanel = ({data, type}) => {
 				width: "100%",
 				display: "grid",
 			}}>
-			{data.map((x, idx) => {
-				return <Entry key={idx} data={x} type = {type} />;
+			{data.map((x) => {
+				return <Entry key={x.id} data={x} type = {type} />;
 			})}
 		</div>
 	);

@@ -1,7 +1,7 @@
 import { Button, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link,Navigate } from "react-router-dom";
 import CustomInputWithLabel from "../../components/CustomInputWithLabel";
 
 const Login = () => {
@@ -24,15 +24,18 @@ const Login = () => {
                 "password" : password,
             })
         })
-        .then(response => checkStatus(response))  
+        .then(response => response.json().then(data =>({
+			data : data
+		})))
+		.then(res => checkStatus(res))  
         .catch(error => console.log("Error detected: " + error))
     }
 
 	function checkStatus(response){
-        console.log(response);
-        var mode = response.status;
-        if(mode === 200){
-            navigate("/userPanel");
+        var mode = response.data.status;
+		console.log(response.data.data)
+        if(mode === "OK"){
+			navigate(`/userPanel/${response.data.data}`);
         }
         else{
 			alert("Niepoprawny login lub hasło!");

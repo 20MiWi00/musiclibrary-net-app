@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -12,7 +13,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -36,6 +39,10 @@ public class User implements Serializable {
     @Column(unique = true)
     private String email;
     private String role;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "userEntry", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Entry> entries;
 
     public User(){}
 
