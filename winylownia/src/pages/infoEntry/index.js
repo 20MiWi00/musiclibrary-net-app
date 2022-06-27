@@ -2,7 +2,7 @@ import {Typography,} from "@mui/material";
 import sample from "./sample.json";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -22,15 +22,14 @@ const InfoEntry = () => {
                 data : data
             })))
             .then(res => setInfo(res.data.data))
+            .catch(error => console.log("Error detected: " + error))
         }
         if(info == null)
             fetchData()
     },[]);
 
     if(info == null){
-        return(
-            <div>Loading</div>
-        )
+        return( <div>Loading</div> )
     }
     else {
         return(
@@ -100,7 +99,7 @@ const InfoEntry = () => {
                     <Typography variant = "h4" fontWeight="bold">Spis utworów: </Typography>
                     <Typography variant = "h5" fontWeight="bold">{info.songtrack}</Typography>
                     <br></br>
-                    <Typography variant = "h4" fontWeight="bold">Wersje winyli: </Typography>
+                    <Typography variant = "h4" fontWeight="bold">Dodatkowe informacje: </Typography>
                     <Typography variant = "h5" fontWeight="bold">{info.vinylversions}</Typography>
                 </div>
             </div>

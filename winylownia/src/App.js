@@ -7,6 +7,7 @@ import Register from "./pages/register";
 import InfoEntry from "./pages/infoEntry";
 import UserPanel from "./pages/userPanel";
 import Settings from "./pages/settings";
+import EditEntry from "./pages/editEntry";
 
 const App = () => {
 
@@ -19,13 +20,14 @@ const App = () => {
 			}}>
 			<NavBar />
 			<Routes>
-				<Route path="/" element={<MainPage />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/register" element={<Register/>}/>
-				<Route path="/addEntry/:userID" element={<AddEntry/>}/>
-				<Route path="/infoEntry/:ID" element={<InfoEntry/>}/>
+				<Route path = "/" element={<MainPage />} />
+				<Route path = "/login" element={<Login />} />
+				<Route path = "/register" element={<Register/>}/>
+				<Route path = "/addEntry/:userID" element={<AddEntry/>}/>
+				<Route path = "/infoEntry/:ID" element={<InfoEntry/>}/>
 				<Route path = "/userPanel/:userID" element={<UserPanel />}/>
-				<Route path ="/settings/:userID" element={<Settings/>}/>
+				<Route path = "/settings/:userID" element={<Settings/>}/>
+				<Route path = "/editEntry/:ID" element = {<EditEntry/>}/>
 			</Routes>
 		</div>
 	);

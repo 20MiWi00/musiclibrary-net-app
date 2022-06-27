@@ -54,7 +54,13 @@ public class UserController{
 
     @PostMapping(value = "/changePass")
     public ResponseEntity<Object> changePassword(@RequestBody ShortUser user){
+        if(user == null){
+            return ResponseHandler.generateResponse("Error",HttpStatus.valueOf(500),null);
+        }
         User existingUser = userRepository.findByLogin(user.getLogin());
+        if(existingUser == null){
+            return ResponseHandler.generateResponse("Error",HttpStatus.valueOf(500),null);
+        }
         user.hashPassword();
         existingUser.setPassword(user.getPassword());
         userRepository.save(existingUser);
@@ -64,6 +70,9 @@ public class UserController{
     @PostMapping(value = "/addEntry", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Object> addEntry(@RequestParam MultiValueMap<String,String> paramMap, @RequestParam(value = "file", required = false)MultipartFile file){
         User user = userRepository.findByLogin(String.valueOf(paramMap.getFirst("login")));
+        if(user == null){
+            return ResponseHandler.generateResponse("Error",HttpStatus.valueOf(500),null);
+        }
         Entry newEntry = new Entry(
                 user,String.valueOf(paramMap.getFirst("title")),
                 String.valueOf(paramMap.getFirst("singer")),String.valueOf(paramMap.getFirst("category")),
@@ -83,7 +92,13 @@ public class UserController{
 
     @PostMapping(value = "/getUserEntries")
     public ResponseEntity<Object> sendUserEntries(@RequestBody String login){
+        if(login == null){
+            return ResponseHandler.generateResponse("Error",HttpStatus.valueOf(500),null);
+        }
         User user = userRepository.findByLogin(login);
+        if(user == null){
+            return ResponseHandler.generateResponse("Error",HttpStatus.valueOf(500),null);
+        }
         return ResponseHandler.generateResponse("Success",HttpStatus.OK,user.getEntries());
     }
 
@@ -103,7 +118,13 @@ public class UserController{
 
     @PostMapping(value = "/getUserRole")
     public ResponseEntity<Object> getUserRole(@RequestBody String login){
+        if(login == null){
+            return ResponseHandler.generateResponse("Error",HttpStatus.valueOf(500),null);
+        }
         User user = userRepository.findByLogin(login);
+        if(user == null){
+            return ResponseHandler.generateResponse("Error",HttpStatus.valueOf(500),null);
+        }
         return ResponseHandler.generateResponse("Success",HttpStatus.OK,user.getRole());
     }
 
@@ -115,7 +136,13 @@ public class UserController{
 
     @PostMapping(value = "/deleteUser")
     public ResponseEntity<Object> deleteUser(@RequestBody String login){
+        if(login == null){
+            return ResponseHandler.generateResponse("Error",HttpStatus.valueOf(500),null);
+        }
        User userToDelete =  userRepository.findByLogin(login);
+        if(userToDelete == null){
+            return ResponseHandler.generateResponse("Error",HttpStatus.valueOf(500),null);
+        }
        userRepository.delete(userToDelete);
        return ResponseHandler.generateResponse("Success",HttpStatus.OK,null);
     }

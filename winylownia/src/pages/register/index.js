@@ -81,7 +81,6 @@ const Register = () =>{
             setLogin("");
             setEmail("");
         }
-        return;
     }
 
 	return (

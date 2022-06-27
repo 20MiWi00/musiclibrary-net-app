@@ -67,7 +67,7 @@ const Entry = ({ data, type }) => {
 						display : "flex",
 						alignItems : "center",
 						justifyContent : "center",
-						gap: 20,
+						gap: 30,
 						paddingRight: 20,
 					}}>
 					<Link
@@ -87,22 +87,45 @@ const Entry = ({ data, type }) => {
 						</Button>
 					</Link>
 					{type === "extended" ? (
-						<Button
+						<div
+							style = {{
+								display : "flex",
+								flexDirection : "row",
+								alignItems : "center",
+								justifyContent : "center",
+								gap : 30,
+							}}>
+							<Button
+								style={{
+									background: "#706D69",
+									color: "white",
+									borderRadius: "2px",
+									paddingRight: 10,
+									paddingLeft: 10,
+							}}>
+								<Typography 
+									variant="h5"
+									onClick = {() => {navigate(`/editEntry/${data.id}`)}}>
+									Edytuj
+								</Typography>
+							</Button>
+							<Button
 							style={{
-								background: "#706D69",
+								background: "#994343",
 								color: "white",
 								borderRadius: "2px",
 								paddingRight: 10,
 								paddingLeft: 10,
-						}}>
-							<Typography
-								variant="h5"
-								onClick={() => {
-									deleteEntry()
-								}}>
-								Usuń
-							</Typography>
-						</Button>
+							}}>
+								<Typography
+									variant="h5"
+									onClick={() => {
+										deleteEntry()
+									}}>
+									Usuń
+								</Typography>
+							</Button>	
+						</div>					
 					):(<div></div>)}
 				</div>
 			</div>

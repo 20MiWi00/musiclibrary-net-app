@@ -19,6 +19,7 @@ const MainPage = () => {
 				data : data
 			})))
 			.then(res => setEntries(res.data.data))
+			.catch(error => console.log("Error detected: " + error))
 		}
 		if(entries == null)
 			fetchData()
@@ -34,9 +35,7 @@ const MainPage = () => {
 	},[searchText])
 	
 	if(entries == null){
-		return(
-			<div>Loading</div>
-		)
+		return( <div>Loading</div> )
 	}
 	else {
 		return (

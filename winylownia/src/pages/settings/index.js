@@ -55,7 +55,8 @@ const Settings = () => {
             method : "POST",
             body : userToDelete.toString(),
         })
-        .then(alert("Usunięto użytkownika " + userToDelete));
+        .then(alert("Usunięto użytkownika " + userToDelete))
+        .catch(error => console.log("Error detected: " + error))
     }
 
     function checkStatus(response){
@@ -192,7 +193,7 @@ const Settings = () => {
                                     justifyContent : "center",
                                     flexDirection: "column",
                                 }}>
-                                <Typography style = {{fontWeight : "bold"}} variant = "h4">Panel Admina</Typography>
+                               {users.length > 0 ? <Typography style = {{fontWeight : "bold"}} variant = "h4">Panel Admina</Typography> : <div></div> }
                                 <div
                                     style = {{
                                         display : "grid",

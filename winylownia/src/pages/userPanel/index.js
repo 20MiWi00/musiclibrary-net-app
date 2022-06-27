@@ -28,6 +28,7 @@ const UserPanel = () => {
 				data : data
 			})))
 			.then(res => setEntries(res.data.data))
+			.catch(error => console.log("Error detected: " + error))
 		}
 		fetchData()
 	},[entries]);
@@ -73,8 +74,8 @@ const UserPanel = () => {
 								textAlign : "center",
 								color : "black",
 							}}>
-							<Typography variant = "h2" fontWeight="bold">
-								TWOJE WPISY
+							<Typography variant = "h3" fontWeight="bold">
+								Wpisy {params.userID}
 							</Typography>
 						</div>
 						<Link

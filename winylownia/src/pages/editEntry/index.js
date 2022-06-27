@@ -1,12 +1,13 @@
-import { Button, Typography,Box } from "@mui/material";
-import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button,InputBase,Typography,Divider, Box} from "@mui/material";
 import CustomInputWithLabel from "../../components/CustomInputWithLabel";
 import CustomSelect from "../../components/CustomSelect";
 import PhotoSelectItem from "../../components/PhotoSelectItem";
 import CustomInputWithLabelExtra from "../../components/CustomInputWithLabelExtra";
 
-const AddEntry = () => {
+const EditEntry = () => {
 
     const token = window.sessionStorage.getItem("token");
     const params = useParams();
@@ -34,6 +35,33 @@ const AddEntry = () => {
     const [firstDisc,setFirstDisc] = useState("");
     const [versions,setVersions] = useState("");
 
+    useEffect(() => {
+        const fetchData = async() => {
+            await fetch('http://localhost:8080/getEntry',
+            {
+                method: "POST",
+                body: params.ID
+            })
+            .then(response => response.json().then(data =>({
+                data : data
+            })))
+            .then(res => setData(res))
+            .catch(error => console.log("Error detected: " + error))
+        }
+        fetchData()
+    },[]);
+
+    function setData(response){
+        setTitle(response.data.data.title);
+        setArtist(response.data.data.singer);
+        setCategory(response.data.data.category)
+        setProductionYear(response.data.data.yearofproduction);
+        setDescription(response.data.data.description);
+        setFirstDisc(response.data.data.songtrack);
+        setVersions(response.data.data.vinylversions);
+        setPhoto(response.data.data.filename);
+    }
+
     function setDisc(){
         if(song.length > 0){
             setFirstDisc(firstDisc => [...firstDisc,song + "\n"]);
@@ -43,9 +71,8 @@ const AddEntry = () => {
 
     async function sendData(){
 
-        
         const formData = new FormData();
-        formData.append('login',params.userID.toString());
+        formData.append('entryID',params.ID.toString());
         formData.append('title',title.toString());
         formData.append('singer',artist.toString());
         formData.append('category',category.toString());
@@ -55,7 +82,7 @@ const AddEntry = () => {
         formData.append('vinylVersions',versions.toString());
         formData.append('file',photo);
         
-        await fetch('http://localhost:8080/addEntry',
+        await fetch('http://localhost:8080/editEntry',
         {
             method: "POST",
             body: formData
@@ -70,8 +97,8 @@ const AddEntry = () => {
 	function checkStatus(response){
         var mode = response.data.status;
         if(mode === "OK"){
-            alert("Dodano wpis")
-			navigate(`/userPanel/${params.userID}`);
+            alert("Zaktualizowano wpis")
+			navigate(-1);
         }
     }
 
@@ -95,20 +122,9 @@ const AddEntry = () => {
                             paddingTop : 40,
                             gap : 20,
                         }}>
-                        {photo != null ?(
-                            <div style = {{paddingRight:300}}>
-                                <img alt="Image" style = {{ width : 400, height : 380, borderRadius: "2px",}} src={URL.createObjectURL(photo)} />
-                            </div>
-                        ):(
-                            <div style = {{paddingRight:300}}>
-                                <Box sx = {{ width : 400, height : 380, backgroundColor : "#994343", borderRadius: "2px", textAlign :"center",}}>
-                                            <Typography style = {{ color: "white",paddingTop:160,fontSize:50 }} variant="h5">+</Typography>
-                                </Box>	
-                            </div>
-                        )}
-                        <label>
-                            <PhotoSelectItem setFunction={setPhoto}></PhotoSelectItem>
-                        </label>
+                        <div style = {{paddingRight:300, paddingTop : 30}}>
+                            <img alt="Image" style = {{ width : 400, height : 380, borderRadius: "2px",}} src={`http://localhost:8080/files/${photo}`} />
+                        </div>
                     </div>
                     <div
                         style ={{
@@ -200,11 +216,29 @@ const AddEntry = () => {
                                     <Typography
                                         style = {{fontSize : 40,}}
                                         variant="button"
-                                        onClick={(e) => {setDisc()}}>
+                                        onClick={() => {setDisc()}}>
                                         +
                                     </Typography>
                                 </Button>
                             </div>
+                            <div style = {{paddingTop : 10, paddindLeft : 10,}}>
+                                <Button
+                                    style={{
+                                        variant: "contained",
+                                        background: "#994343",
+                                        color: "white",
+                                        borderRadius: "2px",
+                                        filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                                        height : 40,
+                                    }}>
+                                    <Typography
+                                        style = {{fontSize : 20,}}
+                                        variant="button"
+                                        onClick={() => {setFirstDisc("")}}>
+                                        Wyczyść
+                                    </Typography>
+                                </Button>
+                            </div>                            
                         </div>
                         <CustomInputWithLabelExtra
                             value = {versions}
@@ -228,11 +262,11 @@ const AddEntry = () => {
                                     width : 200,
                                 }}>
                                 <Typography
-                                    style = {{fontSize : 25,}}
+                                    style = {{fontSize : 18,}}
                                     variant="button"
                                     onClick={() => {sendData()}}
                                 >
-                                    Dodaj wpis
+                                    Zaktualizuj wpis
                                 </Typography>
                             </Button>
                         </div>
@@ -245,4 +279,4 @@ const AddEntry = () => {
     }
 }
 
-export default AddEntry;
+export default EditEntry;
