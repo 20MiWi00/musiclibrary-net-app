@@ -1,7 +1,6 @@
 import { Typography,Button, Divider } from "@mui/material";
 import { Link } from "react-router-dom";
 import {useEffect, useState } from "react";
-import useDebounce from "../../utills/useDebounce";
 import EntryPanel from "../../components/EntryPanel";
 import sample from "./sample.json";
 import { useNavigate } from "react-router-dom";

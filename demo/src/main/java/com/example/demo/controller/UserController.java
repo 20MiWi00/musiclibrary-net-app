@@ -5,6 +5,7 @@ import com.example.demo.storage.StorageService;
 import com.example.demo.templates.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,7 +15,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
-
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -87,7 +87,7 @@ public class UserController{
         return ResponseHandler.generateResponse("Success",HttpStatus.OK,user.getEntries());
     }
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping(value = "/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         Resource file = null;
@@ -99,5 +99,24 @@ public class UserController{
             System.out.println("Waiting...");
         }
         return ResponseEntity.ok().header("File Error").body(null);
+    }
+
+    @PostMapping(value = "/getUserRole")
+    public ResponseEntity<Object> getUserRole(@RequestBody String login){
+        User user = userRepository.findByLogin(login);
+        return ResponseHandler.generateResponse("Success",HttpStatus.OK,user.getRole());
+    }
+
+    @GetMapping(value = "/getUsers")
+    public ResponseEntity<Object> getUsers(){
+        List<String> userLogins = userRepository.findAllLogins();
+        return ResponseHandler.generateResponse("Success",HttpStatus.OK,userLogins);
+    }
+
+    @PostMapping(value = "/deleteUser")
+    public ResponseEntity<Object> deleteUser(@RequestBody String login){
+       User userToDelete =  userRepository.findByLogin(login);
+       userRepository.delete(userToDelete);
+       return ResponseHandler.generateResponse("Success",HttpStatus.OK,null);
     }
 }

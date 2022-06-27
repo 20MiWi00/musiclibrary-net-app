@@ -9,8 +9,7 @@ const SearchBar = ({ value, setFunction }) => {
 				background: "white",
 				borderRadius: "2px",
 				alignItems: "center",
-				margin: "auto",
-				width: 450,
+				width: 850,
 				height: 40,
 				filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
 			}}>

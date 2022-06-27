@@ -1,12 +1,19 @@
 package com.example.demo.repository;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface UserRepository extends CrudRepository<User,String> {
     User findByLogin(String login);
     User findUserById (int id);
+
+    @Query(value = "SELECT login FROM users WHERE role = 'user'", nativeQuery = true)
+    List<String> findAllLogins();
+
 }
 
 /*

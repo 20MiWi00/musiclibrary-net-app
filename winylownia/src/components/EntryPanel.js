@@ -3,7 +3,10 @@ import {
 	InputBase,
 	Typography,
 	Divider,
+	Pagination,
 } from "@mui/material";
+import usePagination from "./../utills/usePagination"
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 
 const Entry = ({ data, type }) => {
@@ -116,16 +119,59 @@ const Entry = ({ data, type }) => {
 };
 
 const EntryPanel = ({data, type}) => {
+
+	const [page,setPage] = useState(1);
+	const perPage = 3;
+	const paginatedData = usePagination(data,perPage);
+
+	const handleChange = (e,p) => {
+		setPage(p);
+		paginatedData.jump(p);
+	}
+
 	return (
 		<div
 			style={{
 				flexDirection: "column",
 				width: "100%",
 				display: "grid",
-			}}>
-			{data.map((x) => {
-				return <Entry key={x.id} data={x} type = {type} />;
-			})}
+			}}>			
+			{ data.length > 0 ? 
+				paginatedData.currentData().map((x) => {
+					return( 
+						<div>
+							<Entry key={x.id} data={x} type = {type} />
+						</div>
+					);
+				}) 
+			: 
+			<div
+				style={{
+					display : "flex",
+					paddingTop : 50,
+					justifyContent : "center",
+				}}>
+				<Typography variant = "h3">Brak wyników</Typography>
+			</div>
+			}
+			<div
+				style = {{
+					display : "flex",
+					justifyContent : "center",
+					alignItems : "center",
+					width : "100%",
+					paddingTop : 10,
+					paddingBottom : 10,
+					paddingRight : 20,
+				}}>
+				<Pagination
+					count = {Math.ceil(data.length / perPage)}
+					size = 'large'
+					page = {page}
+					shape = 'rounded'
+					onChange = {handleChange}
+				/>
+			</div>	 
 		</div>
 	);
 };
