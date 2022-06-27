@@ -8,6 +8,7 @@ const Settings = () => {
 
     const navigate = useNavigate();
     const params = useParams();
+    const token = window.sessionStorage.getItem("token");
 
     const[newPassword,setNewPassword] = useState("");
     const[confirmPassword,setConfirmPassword] = useState("");
@@ -68,6 +69,12 @@ const Settings = () => {
         return;
     }
 
+    function logout(){
+        window.sessionStorage.clear();
+        alert("Wylogowano");
+        navigate("/");
+    }
+
     useEffect(() => {
 		const fetchData = async() => {
             await fetch('http://localhost:8080/getUserRole',
@@ -94,137 +101,163 @@ const Settings = () => {
         }
 	},);
 
-
-    return(
-        <div>
-            {
-                <div
-                    style = {{
-                        display : "flex",
-                        flexDirection : "column",
-                        alignItems : "center",
-                        justifyContent : "center",
-                        paddingTop : 100,
-                        gap : 80,
-                    }}>
+    if(token){
+        return(
+            <div>
+                {
                     <div
-                        style={{
+                        style = {{
                             display : "flex",
                             flexDirection : "column",
-                            textAlign : "center",
-                            justifyContent : "center",
                             alignItems : "center",
-                            width : "70%",
-                            height : 300,
-                            gap : 10,
-                            backgroundColor : "#C4C4C4",
+                            justifyContent : "center",
+                            paddingTop : 100,
+                            gap : 80,
                         }}>
-                        <Typography variant = "h4" fontWeight = "bold">
-                            Zmień hasło
-                        </Typography>
-                        <br></br>
                         <div
-                            style = {{
+                            style={{
                                 display : "flex",
-                                flexDirection : "row",
-                                alignItems : "center",
+                                flexDirection : "column",
+                                textAlign : "center",
                                 justifyContent : "center",
-                                gap : 30,
+                                alignItems : "center",
+                                width : "70%",
+                                height : 300,
+                                gap : 10,
+                                backgroundColor : "#C4C4C4",
                             }}>
-                            <CustomInputWithLabel
-                                value = {newPassword}
-                                setFunction = {setNewPassword}
-                                label = "Nowe hasło"
-                                type = "password"
-                            />
-                            <CustomInputWithLabel
-                                value = {confirmPassword}
-                                setFunction = {setConfirmPassword}
-                                label = "Powtórz nowe hasło"
-                                type = "password"
-                            /> 
-                        </div>
-                        <Typography variant="h6" style = {{color:"#706D69",fontStyle:"italic"}}>
-                            Hasło musi zawierać przynajmniej 8 znaków w tym jedną wielką literę i cyfrę.
-                        </Typography>
-                        {checkPassword() ? (
-                            <Button
+                            <Typography variant = "h4" fontWeight = "bold">
+                                Zmień hasło
+                            </Typography>
+                            <br></br>
+                            <div
+                                style = {{
+                                    display : "flex",
+                                    flexDirection : "row",
+                                    alignItems : "center",
+                                    justifyContent : "center",
+                                    gap : 30,
+                                }}>
+                                <CustomInputWithLabel
+                                    value = {newPassword}
+                                    setFunction = {setNewPassword}
+                                    label = "Nowe hasło"
+                                    type = "password"
+                                />
+                                <CustomInputWithLabel
+                                    value = {confirmPassword}
+                                    setFunction = {setConfirmPassword}
+                                    label = "Powtórz nowe hasło"
+                                    type = "password"
+                                /> 
+                            </div>
+                            <Typography variant="h6" style = {{color:"#706D69",fontStyle:"italic"}}>
+                                Hasło musi zawierać przynajmniej 8 znaków w tym jedną wielką literę i cyfrę.
+                            </Typography>
+                            {checkPassword() ? (
+                                <Button
+                                    style={{
+                                        background: "#706D69",
+                                        color: "white",
+                                        borderRadius: "2px",
+                                        filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                                        width : 200,
+                                    }}>
+                                    <Typography
+                                        style={{fontSize : 22,color : "#E5E5E5"}}
+                                        variant="button"
+                                        onClick={() => {
+                                            sendData()
+                                        }}>
+                                        Zmień hasło
+                                    </Typography>
+                                </Button>
+                            ):(
+                                <Button
+                                disabled
                                 style={{
-                                    background: "#706D69",
-                                    color: "white",
                                     borderRadius: "2px",
                                     filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
                                     width : 200,
+                                    fontSize : 22,
                                 }}>
-                                <Typography
-                                    style={{fontSize : 22,color : "#E5E5E5"}}
-                                    variant="button"
-                                    onClick={() => {
-                                        sendData()
-                                    }}>
                                     Zmień hasło
-                                </Typography>
-                            </Button>
-                        ):(
-                            <Button
-                            disabled
-                            style={{
-                                borderRadius: "2px",
-                                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-                                width : 200,
-                                fontSize : 22,
-                            }}>
-                                Zmień hasło
-                            </Button>
-                        )}                                 
-                    </div>
-                    { role == "admin" ?
-                        <div
-                            style = {{
-                                alignItems : "center",
-                                justifyContent : "center",
-                                flexDirection: "column",
-                            }}>
-                            <Typography style = {{fontWeight : "bold"}} variant = "h4">Panel Admina</Typography>
+                                </Button>
+                            )}                                 
+                        </div>
+                        { role == "admin" ?
                             <div
                                 style = {{
-                                    display : "grid",
-                                    width : 1020,
-                                    background: "#C4C4C4",
+                                    alignItems : "center",
+                                    justifyContent : "center",
+                                    flexDirection: "column",
                                 }}>
-                                {users.map((user) => {
-                                    return (
-                                        <div
-                                            style = {{
-                                                flexDirection : "row",
-                                                display : "flex",
-                                                alignItems : "center",
-                                                justifyContent : "center",
-                                                height : 100,
-                                            }}>
-                                            <Typography style = {{width : "80%"}} variant = "h5">Użytkownik : {user} </Typography>
-                                            <Button
+                                <Typography style = {{fontWeight : "bold"}} variant = "h4">Panel Admina</Typography>
+                                <div
+                                    style = {{
+                                        display : "grid",
+                                        width : 1020,
+                                        background: "#C4C4C4",
+                                    }}>
+                                    {users.map((user) => {
+                                        return (
+                                            <div
                                                 style = {{
-                                                    background : "#994343",
-                                                    color : "white",
-                                                    borderRadius: "2px",
-                                                    filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-                                                    fontSize : 16,
-                                                    width : 150,
-                                                    height : 40,
-                                                }}
-                                                onClick={() => {deleteUser(user)}}>
-                                                Usuń Konto
-                                            </Button>                                      
-                                        </div>
-                                    )})}
+                                                    flexDirection : "row",
+                                                    display : "flex",
+                                                    alignItems : "center",
+                                                    justifyContent : "center",
+                                                    height : 100,
+                                                }}>
+                                                <Typography style = {{width : "80%"}} variant = "h5">Użytkownik : {user} </Typography>
+                                                <Button
+                                                    style = {{
+                                                        background : "#994343",
+                                                        color : "white",
+                                                        borderRadius: "2px",
+                                                        filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                                                        fontSize : 16,
+                                                        width : 150,
+                                                        height : 40,
+                                                    }}
+                                                    onClick={() => {deleteUser(user)}}>
+                                                    Usuń Konto
+                                                </Button>                                      
+                                            </div>
+                                        )})}
+                                </div>
                             </div>
-                        </div>
-                    : <div></div> }
+                        : <div></div> }
+                    </div>
+                }
+                <div
+                    style = {{
+                        display : "flex",
+                        justifyContent : "center",
+                        alignItems : "center",
+                        paddingTop : 10,
+                        paddingBottom : 10,
+                    }}>
+                    <Button
+                        style = {{
+                            background : "#994343",
+                            color : "white",
+                            borderRadius: "2px",
+                            filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                            fontSize : 18,
+                            width : 150,
+                            height : 40,
+                        }}
+                        onClick={() => {logout()}}>
+                        Wyloguj się
+                    </Button>  
                 </div>
-            }
-        </div>
-    );
+            </div>
+        );
+    }
+    else{
+        navigate("/login");
+    }
 }
 
 export default Settings;

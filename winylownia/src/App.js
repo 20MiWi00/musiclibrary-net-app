@@ -7,7 +7,9 @@ import Register from "./pages/register";
 import InfoEntry from "./pages/infoEntry";
 import UserPanel from "./pages/userPanel";
 import Settings from "./pages/settings";
+
 const App = () => {
+
 	return (
 		<div
 			style={{

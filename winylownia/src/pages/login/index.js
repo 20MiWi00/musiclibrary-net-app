@@ -8,6 +8,7 @@ const Login = () => {
 
 	const [login, setLogin] = useState("");
 	const [password, setPassword] = useState("");
+
 	const navigate = useNavigate();
 
 	async function sendData(){
@@ -35,6 +36,8 @@ const Login = () => {
         var mode = response.data.status;
 		console.log(response.data.data)
         if(mode === "OK"){
+			window.sessionStorage.clear();
+			window.sessionStorage.setItem("token",true);
 			navigate(`/userPanel/${response.data.data}`);
         }
         else{

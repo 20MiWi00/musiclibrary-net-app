@@ -8,9 +8,10 @@ import { useParams } from "react-router-dom";
 
 const UserPanel = () => {
 
-
+	const navigate = useNavigate();
 	const params = useParams();
 	const [entries,setEntries] = useState([]);
+	const token = window.sessionStorage.getItem("token");
 
 	useEffect(() => {
 		const fetchData = async() => {
@@ -28,82 +29,88 @@ const UserPanel = () => {
 			})))
 			.then(res => setEntries(res.data.data))
 		}
-			fetchData()
+		fetchData()
 	},[entries]);
 
-	return (
-		<div
-			style = {{
-				display:"flex",
-				flexDirection:"column",
-			}}>
-				<div
-					style={{
-						display:"flex",
-						flexDirection : "row",
-						width : "100%",
-						height: 150,
-						backgroundColor :"#C4C4C4",
-						filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-						alignItems:"center",
-						justifyContent:"center",
-						gap:40,
-					}}>
-					<Link
-						to = {`/settings/${params.userID}`}
+	if(token){
+		return (
+			<div
+				style = {{
+					display:"flex",
+					flexDirection:"column",
+				}}>
+					<div
 						style={{
-							textDecoration: "none",
+							display:"flex",
+							flexDirection : "row",
+							width : "100%",
+							height: 150,
+							backgroundColor :"#C4C4C4",
+							filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+							alignItems:"center",
+							justifyContent:"center",
+							gap:40,
 						}}>
-						<Button
+						<Link
+							to = {`/settings/${params.userID}`}
 							style={{
-								background: "#706D69",
-								color: "white",
-								borderRadius : "2px",
-								paddingRight: 10,
-								paddingLeft: 10,
+								textDecoration: "none",
 							}}>
-							<Typography variant="h5">Ustawnienia</Typography>
-						</Button>
-					</Link>
-                    <div
-                        style={{
-                            width : "70%",
-                            textAlign : "center",
-                            color : "black",
-                        }}>
-                        <Typography variant = "h2" fontWeight="bold">
-                            TWOJE WPISY
-                        </Typography>
-                    </div>
-					<Link
-						to = {`/addEntry/${params.userID}`}
+							<Button
+								style={{
+									background: "#706D69",
+									color: "white",
+									borderRadius : "2px",
+									paddingRight: 10,
+									paddingLeft: 10,
+								}}>
+								<Typography variant="h5">Ustawnienia</Typography>
+							</Button>
+						</Link>
+						<div
+							style={{
+								width : "70%",
+								textAlign : "center",
+								color : "black",
+							}}>
+							<Typography variant = "h2" fontWeight="bold">
+								TWOJE WPISY
+							</Typography>
+						</div>
+						<Link
+							to = {`/addEntry/${params.userID}`}
+							style={{
+								textDecoration: "none",
+							}}>
+							<Button
+								style={{
+									background: "#706D69",
+									color: "white",
+									borderRadius : "2px",
+									paddingRight: 10,
+									paddingLeft: 10,
+								}}>
+								<Typography variant="h5">Dodaj wpis</Typography>
+							</Button>
+						</Link>                                            			
+					</div>
+					<div
 						style={{
-							textDecoration: "none",
+							display:"flex",
+							flexDirection : "column",
 						}}>
-						<Button
-							style={{
-								background: "#706D69",
-								color: "white",
-								borderRadius : "2px",
-								paddingRight: 10,
-								paddingLeft: 10,
-							}}>
-							<Typography variant="h5">Dodaj wpis</Typography>
-						</Button>
-					</Link>                                            			
-				</div>
-				<div
-					style={{
-						display:"flex",
-						flexDirection : "column",
-					}}>
-					<EntryPanel
-						data = {entries}
-						type = "extended"
-					/>
-				</div>
-		</div>
-	);
+						<EntryPanel
+							data = {entries}
+							type = "extended"
+						/>
+					</div>
+			</div>
+		);
+	}
+	else {
+		navigate("/login");
+	}
+	
 };
 
 export default UserPanel;
